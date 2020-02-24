@@ -71,6 +71,8 @@ repeat{
 # Write data to new file
 write.table(datanew, file = paste0(output, ".txt"), row.names = F, col.names = T, sep = "\t", quote = F)
 
+# Optional command to return frequency table of unique QI combinations. Uncomment to run
+write.table(freqC, file = "freq.txt", row.names = F, col.names = T, sep = "\t", quote = F)
 
 
 

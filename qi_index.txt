@@ -1,0 +1,10 @@
+Attributes	isQI	Type
+ID	FALSE	Descriptive
+age	TRUE	Numeric
+education-num	TRUE	Numeric
+work-class	FALSE	Descriptive
+marital-status	TRUE	Descriptive
+occupation	FALSE	Descriptive
+race 	TRUE	Descriptive
+sex	TRUE	Descriptive
+native-country	TRUE	Descriptive

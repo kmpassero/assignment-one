@@ -16,7 +16,7 @@ output = args[5]
 
 # Install dplyr if missing
 if(!"dplyr"%in%installed.packages()){
-  install.packages("dplyr")
+  install.packages("dplyr", repos = "http://lib.stat.cmu.edu/R/CRAN/")
 }
 
 # Attach dplyr package

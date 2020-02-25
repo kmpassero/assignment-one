@@ -51,10 +51,10 @@ repeat{
   } else if ( sum( freqC$n[freqC$n < k] ) <= k){ # Break loop if # tuples to be suppressed <= k
     
     print("Suppressing...")
-    index = data %>% group_by_at(QI) %>% mutate(group = group_indices()) %>% as.data.frame()
-    freqG = freqC %>% mutate(group = group_indices()) %>% as.data.frame()
-    drop = freqG[freqG$n<k, "group"]
-    datanew = index[!index$group%in%drop,] %>% select(-group)
+    index = data %>% group_by_at(QI) %>% mutate(group = group_indices()) %>% as.data.frame() # Group by QI, then annotate table by group ID
+    freqG = freqC %>% mutate(group = group_indices()) %>% as.data.frame() # Annotate the group ID of groups in freqC
+    drop = freqG[freqG$n<k, "group"] # get list of groups where counts <= k
+    datanew = index[!index$group%in%drop,] %>% select(-group) # Drop rows w/corresponding group IDs, then drop group ID column from final table
     break
     
   } else { #  If data is not k-anonymous/can't be suppressed, generalize attribute with most unqiue values
@@ -72,7 +72,7 @@ repeat{
 write.table(datanew, file = paste0(output, ".txt"), row.names = F, col.names = T, sep = "\t", quote = F)
 
 # Optional command to return frequency table of unique QI combinations. Uncomment to run
-write.table(freqC, file = "freq.txt", row.names = F, col.names = T, sep = "\t", quote = F)
+#write.table(freqC, file = "freq.txt", row.names = F, col.names = T, sep = "\t", quote = F)
 
 
 

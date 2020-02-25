@@ -51,18 +51,18 @@ repeat{
   } else if ( sum( freqC$n[freqC$n < k] ) <= k){ # Break loop if # tuples to be suppressed <= k
     
     print("Suppressing...")
-    index = data %>% group_by_at(QI) %>% mutate(group = group_indices()) %>% as.data.frame() # Group by QI, then annotate table by group ID
-    freqG = freqC %>% mutate(group = group_indices()) %>% as.data.frame() # Annotate the group ID of groups in freqC
-    drop = freqG[freqG$n<k, "group"] # get list of groups where counts <= k
+    index = data %>% group_by_at(QI) %>% mutate(group = group_indices()) %>% as.data.frame() # Group data by QI, then annotate table rows with group ID
+    freqG = freqC %>% mutate(group = group_indices()) %>% as.data.frame() # Annotate freqC with group IDs
+    drop = freqG[freqG$n<k, "group"] # get list of group IDs where counts <= k
     datanew = index[!index$group%in%drop,] %>% select(-group) # Drop rows w/corresponding group IDs, then drop group ID column from final table
     break
     
   } else { #  If data is not k-anonymous/can't be suppressed, generalize attribute with most unqiue values
     
     print("Generalizing...")
-    maxC = sapply(freqC[,-ncol(freqC)], n_distinct) # Count unqiue values per attribute
-    Attr = which.max(maxC) %>% names() # Note: if duplicate max values, selects in order of appearance
-    data[,Attr] <- dfkey[,2][match(data[,Attr], dfkey[,1])]
+    maxC = sapply(freqC[,-ncol(freqC)], n_distinct) # Count unqiue values per attribute/column, excluding last column of frequency counts
+    Attr = which.max(maxC) %>% names() # Selec name of attribute with max unique values. If duplicate max values, selects in order of appearance
+    data[,Attr] <- dfkey[,2][match(data[,Attr], dfkey[,1])] # Replace attribute values with those from the value hierarchy key
     
   }
   
